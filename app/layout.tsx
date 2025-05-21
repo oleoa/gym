@@ -3,8 +3,13 @@ import { Noto_Serif } from "next/font/google";
 import "./globals.css";
 
 import { ClerkProvider } from "@clerk/nextjs";
+import ConvexClientProvider from "./ConvexClientProvider";
 
-import { ConvexClientProvider } from "./ConvexClientProvider";
+import { config } from "@fortawesome/fontawesome-svg-core";
+import "@fortawesome/fontawesome-svg-core/styles.css";
+config.autoAddCss = false;
+
+import { Toaster } from "@/components/ui/sonner";
 import Navbar from "@/components/Navbar";
 
 const notoSerif = Noto_Serif({
@@ -25,10 +30,11 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <ConvexClientProvider>
-        <html lang="en">
+        <html lang="en" className="dark">
           <body className={notoSerif.className}>
             <Navbar />
             {children}
+            <Toaster position="bottom-center" richColors />
           </body>
         </html>
       </ConvexClientProvider>
