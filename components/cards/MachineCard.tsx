@@ -17,7 +17,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-
 import {
   Card,
   CardContent,
@@ -27,6 +26,8 @@ import {
 } from "@/components/ui/card";
 import { Button } from "../ui/button";
 import { Separator } from "../ui/separator";
+
+import DeleteButton from "../DeleteButton";
 
 export default function MachineCard({ machine }: { machine: Machine }) {
   const deleteMachine = useMutation(api.machines.deleteMachine);
@@ -117,9 +118,10 @@ export default function MachineCard({ machine }: { machine: Machine }) {
             Edit
           </Button>
         )}
-        <Button variant="destructive" onClick={handleDeleteMachine}>
-          Delete
-        </Button>
+        <DeleteButton
+          action={handleDeleteMachine}
+          message="Are you sure you want to delete this machine?"
+        />
       </CardFooter>
     </Card>
   );

@@ -17,7 +17,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-
 import {
   Card,
   CardContent,
@@ -29,6 +28,8 @@ import { Button } from "../ui/button";
 import { Separator } from "../ui/separator";
 import { Skeleton } from "../ui/skeleton";
 
+import DeleteButton from "../DeleteButton";
+
 export default function ExerciseCard({ exercise }: { exercise: Exercise }) {
   const machineResponse = useQuery(api.machines.getMachine, {
     machineId: exercise.machineId,
@@ -38,6 +39,7 @@ export default function ExerciseCard({ exercise }: { exercise: Exercise }) {
   const updateExercise = useMutation(api.exercisesModel.updateExerciseModel);
 
   const [isEditing, setIsEditing] = useState(false);
+
   const [machineId, setMachineId] = useState(exercise.machineId);
   const [exerciseName, setExerciseName] = useState(exercise.name);
   const [exerciseDescription, setExerciseDescription] = useState(
@@ -136,9 +138,10 @@ export default function ExerciseCard({ exercise }: { exercise: Exercise }) {
             Edit
           </Button>
         )}
-        <Button variant="destructive" onClick={handleDeleteExercise}>
-          Delete
-        </Button>
+        <DeleteButton
+          action={handleDeleteExercise}
+          message="Are you sure you want to delete this exercise?"
+        />
       </CardFooter>
     </Card>
   );

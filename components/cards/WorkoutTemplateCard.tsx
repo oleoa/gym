@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/card";
 import { Button } from "../ui/button";
 import { Separator } from "../ui/separator";
+import DeleteButton from "../DeleteButton";
 
 export default function WorkoutTemplateCard({
   workoutTemplate,
@@ -96,9 +97,10 @@ export default function WorkoutTemplateCard({
             Edit
           </Button>
         )}
-        <Button variant="destructive" onClick={handleDeleteWorkoutTemplate}>
-          Delete
-        </Button>
+        <DeleteButton
+          action={handleDeleteWorkoutTemplate}
+          message="Are you sure you want to delete this workout template?"
+        />
       </CardFooter>
     </Card>
   );
