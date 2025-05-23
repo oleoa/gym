@@ -3,7 +3,7 @@ import MachinesGallery from "@/components/galleries/MachinesGallery";
 
 export default function MachinesPage() {
   return (
-    <main className="h-screen">
+    <main>
       <MachinesGallery />
       <CreateMachineDialog />
     </main>

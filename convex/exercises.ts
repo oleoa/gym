@@ -30,6 +30,28 @@ export const createExerciseModel = mutation({
   },
 });
 
+export const getExercisesModelsFromUser = query({
+  args: {},
+  handler: async (ctx) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (identity === null)
+      return {
+        success: false,
+        message: "You must be logged in to get exercises",
+      };
+    const userId = identity.subject;
+    const exercises = await ctx.db
+      .query("exercisesModels")
+      .withIndex("byUserId", (q) => q.eq("userId", userId))
+      .collect();
+    return {
+      success: true,
+      message: "Exercises fetched successfully",
+      data: exercises,
+    };
+  },
+});
+
 export const getExercisesModelsFromMachine = query({
   args: {
     machineId: v.id("machinesModels"),

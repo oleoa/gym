@@ -52,6 +52,37 @@ export const getMachines = query({
   },
 });
 
+export const getMachine = query({
+  args: {
+    machineId: v.id("machinesModels"),
+  },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (identity === null)
+      return {
+        success: false,
+        message: "You must be logged in to get a machine",
+      };
+    const userId = identity.subject;
+    const machine = await ctx.db.get(args.machineId);
+    if (machine === null)
+      return {
+        success: false,
+        message: "Machine not found",
+      };
+    if (machine.userId !== userId)
+      return {
+        success: false,
+        message: "You are not authorized to get this machine",
+      };
+    return {
+      success: true,
+      message: "Machine fetched successfully",
+      data: machine,
+    };
+  },
+});
+
 export const deleteMachine = mutation({
   args: {
     machineId: v.id("machinesModels"),

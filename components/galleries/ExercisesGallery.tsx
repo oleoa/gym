@@ -5,10 +5,10 @@ import { api } from "@/convex/_generated/api";
 
 import { Skeleton } from "@/components/ui/skeleton";
 
-import MachineCard from "../cards/MachineCard";
+import ExerciseCard from "@/components/cards/ExerciseCard";
 
-export default function MachinesGallery() {
-  const response = useQuery(api.machines.getMachines);
+export default function ExercisesGallery() {
+  const response = useQuery(api.exercises.getExercisesModelsFromUser);
   if (response === undefined)
     return (
       <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
@@ -18,13 +18,13 @@ export default function MachinesGallery() {
       </div>
     );
   if (!response.success) return <div>{response.message}</div>;
-  const machines = response.data;
+  const exercises = response.data;
 
   return (
-    <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 p-4">
-      {machines &&
-        machines.map((machine) => (
-          <MachineCard key={machine._id} machine={machine} />
+    <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
+      {exercises &&
+        exercises.map((exercise) => (
+          <ExerciseCard key={exercise._id} exercise={exercise} />
         ))}
     </div>
   );

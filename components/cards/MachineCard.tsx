@@ -61,7 +61,7 @@ export default function MachineCard({ machine }: { machine: Machine }) {
   );
 
   return (
-    <Card className="w-full h-fit min-h-64 flex justify-between">
+    <Card className="w-full h-fit min-h-48 flex justify-between">
       <CardHeader>
         <CardTitle>
           {isEditing ? (
@@ -88,7 +88,6 @@ export default function MachineCard({ machine }: { machine: Machine }) {
           <p className="text-sm">{machine.description}</p>
         )}
         <Separator />
-
         {isEditing ? (
           <Select
             value={machineWeightType}

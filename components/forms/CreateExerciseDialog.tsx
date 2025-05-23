@@ -23,28 +23,40 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-import { useMutation } from "convex/react";
+import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
+import { Id } from "@/convex/_generated/dataModel";
 
-export default function CreateMachineDialog() {
+export default function CreateExerciseDialog() {
   const [isOpen, setIsOpen] = useState(false);
 
-  const createMachine = useMutation(api.machines.createMachine);
+  const machinesResponse = useQuery(api.machines.getMachines);
 
+  const createExercise = useMutation(api.exercises.createExerciseModel);
+
+  const [machineId, setMachineId] = useState<Id<"machinesModels">>();
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   // const [imageUrl, setImageUrl] = useState("");
-  const [weightType, setWeightType] = useState<"kg" | "lb">("kg");
+
+  if (machinesResponse === undefined) return <></>;
+  if (!machinesResponse.success || !machinesResponse.data)
+    return <div>{machinesResponse.message}</div>;
+  const machines = machinesResponse.data;
 
   const handleSubmit = async () => {
     if (!name) return toast.error("Please enter a name");
-    if (!weightType) return toast.error("Please select a weight type");
-    const response = await createMachine({ name, description, weightType });
+    if (!machineId) return toast.error("Please select a machine");
+    const response = await createExercise({
+      name,
+      description,
+      machineId,
+    });
     if (!response.success) return toast.error(response.message);
-    toast.success("Machine created successfully");
+    toast.success("Exercise created successfully");
     setName("");
     setDescription("");
-    setWeightType("kg");
+    setMachineId(undefined);
     setIsOpen(false);
   };
 
@@ -52,49 +64,54 @@ export default function CreateMachineDialog() {
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
         <div className="fixed bottom-0 right-0 p-4 z-50">
-          <Button>Create Machine</Button>
+          <Button>Create Exercise</Button>
         </div>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Create a new machine</DialogTitle>
+          <DialogTitle>Create a new exercise</DialogTitle>
           <DialogDescription>
-            Create a new machine for your workout!
+            Create a new exercise for your workout!
           </DialogDescription>
         </DialogHeader>
         <div className="flex flex-col gap-4 items-center">
           <div className="flex flex-col gap-4 w-full">
             <Input
               type="text"
-              placeholder="Machine Name"
+              placeholder="Exercise Name"
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
             <Textarea
-              placeholder="Machine Description"
+              placeholder="Exercise Description"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
             />
             {/* <Input
-        type="text"
-        placeholder="Machine Image URL"
-        value={imageUrl}
-        onChange={(e) => setImageUrl(e.target.value)}
-      /> */}
+              type="text"
+              placeholder="Machine Image URL"
+              value={imageUrl}
+              onChange={(e) => setImageUrl(e.target.value)}
+            /> */}
             <Select
-              value={weightType}
-              onValueChange={(value) => setWeightType(value as "kg" | "lb")}
+              value={machineId}
+              onValueChange={(value) =>
+                setMachineId(value as Id<"machinesModels">)
+              }
             >
               <SelectTrigger className="w-full">
-                <SelectValue placeholder="Select a weight type" />
+                <SelectValue placeholder="Select a machine" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="kg">Weight in kg</SelectItem>
-                <SelectItem value="lb">Weight in lb</SelectItem>
+                {machines.map((machine) => (
+                  <SelectItem key={machine._id} value={machine._id}>
+                    {machine.name}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
 
-            <Button onClick={handleSubmit}>Create Machine</Button>
+            <Button onClick={handleSubmit}>Create Exercise</Button>
           </div>
         </div>
       </DialogContent>
