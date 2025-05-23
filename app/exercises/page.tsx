@@ -1,5 +1,5 @@
 import ExercisesGallery from "@/components/galleries/ExercisesGallery";
-import CreateExerciseDialog from "@/components/forms/CreateExerciseDialog";
+import CreateExerciseDialog from "@/components/dialogs/CreateExerciseDialog";
 
 export default function ExercisesPage() {
   return (

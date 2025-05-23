@@ -5,10 +5,10 @@ import { api } from "@/convex/_generated/api";
 
 import { Skeleton } from "@/components/ui/skeleton";
 
-import ExerciseCard from "@/components/cards/ExerciseCard";
+import WorkoutTemplateCard from "../cards/WorkoutTemplateCard";
 
-export default function ExercisesGallery() {
-  const response = useQuery(api.exercisesModel.getExercisesModelsFromUser);
+export default function WorkoutTemplateGallery() {
+  const response = useQuery(api.templates.getWorkoutTemplatesFromUser);
   if (response === undefined)
     return (
       <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
@@ -18,13 +18,16 @@ export default function ExercisesGallery() {
       </div>
     );
   if (!response.success) return <div>{response.message}</div>;
-  const exercises = response.data;
+  const workoutTemplates = response.data;
 
   return (
     <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
-      {exercises &&
-        exercises.map((exercise) => (
-          <ExerciseCard key={exercise._id} exercise={exercise} />
+      {workoutTemplates &&
+        workoutTemplates.map((workoutTemplate) => (
+          <WorkoutTemplateCard
+            key={workoutTemplate._id}
+            workoutTemplate={workoutTemplate}
+          />
         ))}
     </div>
   );

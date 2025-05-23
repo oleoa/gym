@@ -34,8 +34,8 @@ export default function ExerciseCard({ exercise }: { exercise: Exercise }) {
     machineId: exercise.machineId,
   });
   const machinesResponse = useQuery(api.machines.getMachines);
-  const deleteExercise = useMutation(api.exercises.deleteExerciseModel);
-  const updateExercise = useMutation(api.exercises.updateExerciseModel);
+  const deleteExercise = useMutation(api.exercisesModel.deleteExerciseModel);
+  const updateExercise = useMutation(api.exercisesModel.updateExerciseModel);
 
   const [isEditing, setIsEditing] = useState(false);
   const [machineId, setMachineId] = useState(exercise.machineId);

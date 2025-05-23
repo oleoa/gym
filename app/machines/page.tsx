@@ -1,4 +1,4 @@
-import CreateMachineDialog from "@/components/forms/CreateMachineDialog";
+import CreateMachineDialog from "@/components/dialogs/CreateMachineDialog";
 import MachinesGallery from "@/components/galleries/MachinesGallery";
 
 export default function MachinesPage() {

@@ -19,6 +19,7 @@ export default function Navbar() {
         <Link href="/">Home</Link>
         <Link href="/machines">Machines</Link>
         <Link href="/exercises">Exercises</Link>
+        <Link href="/templates">Templates</Link>
       </div>
       <div className="flex gap-4">
         <SignedOut>

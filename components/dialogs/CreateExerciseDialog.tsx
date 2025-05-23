@@ -32,7 +32,7 @@ export default function CreateExerciseDialog() {
 
   const machinesResponse = useQuery(api.machines.getMachines);
 
-  const createExercise = useMutation(api.exercises.createExerciseModel);
+  const createExercise = useMutation(api.exercisesModel.createExerciseModel);
 
   const [machineId, setMachineId] = useState<Id<"machinesModels">>();
   const [name, setName] = useState("");
